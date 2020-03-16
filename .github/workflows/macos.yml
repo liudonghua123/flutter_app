@@ -2,10 +2,10 @@ name: MacOS-CI
 
 on:
   push:
-    branches: 
+    branches:
       - master
     tags:
-      - '*'
+      - "*"
 
 jobs:
   build:
@@ -33,10 +33,11 @@ jobs:
           flutter config --enable-macos-desktop
           flutter pub get
 
-      - name: Build macos, apk
+      - name: Build macos, apk, ios(simulator)
         run: |
           flutter build macos
-          flutter build apk    
+          flutter build apk
+          flutter build ios --debug --no-codesign --simulator
 
       - name: Debug
         run: |
@@ -46,13 +47,15 @@ jobs:
       - name: Prepare release files
         run: |
           cp -r build/macos/Build/Products/Release/flutter_app.app flutter_app-macos-${{ steps.branch_name.outputs.SOURCE_NAME }}.app
+          cp -r build/ios/Debug-iphonesimulator/Runner.app flutter_app-ios-${{ steps.branch_name.outputs.SOURCE_NAME }}.app
           zip flutter_app-macos-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip -r flutter_app-macos-${{ steps.branch_name.outputs.SOURCE_NAME }}.app
+          zip flutter_app-ios-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip -r flutter_app-ios-${{ steps.branch_name.outputs.SOURCE_NAME }}.app
           cp build/app/outputs/apk/release/app-release.apk flutter_app-android-${{ steps.branch_name.outputs.SOURCE_NAME }}.apk
 
       - uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: flutter_app-macos-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip;flutter_app-android-${{ steps.branch_name.outputs.SOURCE_NAME }}.apk
+          file: flutter_app-macos-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip;flutter_app-ios-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip;flutter_app-android-${{ steps.branch_name.outputs.SOURCE_NAME }}.apk
           tags: true
           draft: false

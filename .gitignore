@@ -47,7 +47,10 @@ app.*.map.json
 **/.classpath
 **/.settings
 
-# Windows build generated files
-windows/flutter/GeneratedPlugins.props
-windows/flutter/generated_plugin_registrant.h
-windows/flutter/generated_plugin_registrant.cc
+# flutter build generated files
+**/generated_plugin_registrant.dart
+**/generated_plugin_registrant.cc
+**/generated_plugin_registrant.h
+**/GeneratedPlugins.props
+**/generated_plugins.mk
+**/GeneratedPluginRegistrant.swift

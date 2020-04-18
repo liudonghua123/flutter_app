@@ -1,0 +1,56 @@
+name: Gradle-CI
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Branch name
+        id: branch_name
+        run: |
+          echo ::set-output name=SOURCE_NAME::${GITHUB_REF#refs/*/}
+          echo ::set-output name=SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
+          echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '8.x'
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'dev'
+
+      - name: Change flutter channel to master, enable macos support
+        run: |
+          flutter channel master
+          flutter upgrade
+          flutter config --enable-macos-desktop
+          flutter pub get
+
+      - name: Build android
+        run: |
+          flutter build apk
+
+      - name: Debug
+        run: |
+          sudo npm install tree-node-cli -g
+          ls -lah ~
+
+      - name: Prepare release files
+        run: |
+          cp -r ~/.gradle .gradle
+          zip gradle.zip -r .gradle
+
+      - uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: gradle.zip
+          tags: true
+          draft: false

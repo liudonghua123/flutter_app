@@ -42,12 +42,13 @@ jobs:
         run: |
           sudo npm install tree-node-cli -g
           ls -lah ~
+          du -sh ~/.gradle
 
       - name: Prepare release files
         run: |
           cp -r ~/.gradle .gradle
           zip gradle.zip -r .gradle
-          split -b 1024M gradle.zip gradle.zip.part
+          split -b 1024m gradle.zip gradle.zip.part
 
       - uses: xresloader/upload-to-github-release@v1
         env:

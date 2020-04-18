@@ -2,7 +2,7 @@ name: Linux-CI
 
 on:
   push:
-    branches: 
+    branches:
       - master
     tags:
       - '*'
@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: contains(github.ref, 'tags')
     steps:
       - uses: actions/checkout@v2
       - name: Branch name
@@ -21,10 +22,10 @@ jobs:
 
       - uses: actions/setup-java@v1
         with:
-          java-version: "8.x"
+          java-version: '8.x'
       - uses: subosito/flutter-action@v1
         with:
-          channel: "dev"
+          channel: 'dev'
 
       - name: Change flutter channel to master, enable linux support
         run: |

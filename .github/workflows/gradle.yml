@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+    if: contains(github.ref, 'tags')
     steps:
       - uses: actions/checkout@v2
       - name: Branch name

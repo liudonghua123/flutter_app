@@ -47,11 +47,12 @@ jobs:
         run: |
           cp -r ~/.gradle .gradle
           zip gradle.zip -r .gradle
+          split -b 1024M gradle.zip gradle.zip.part
 
       - uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: gradle.zip
+          file: gradle.zip.part*
           tags: true
           draft: false

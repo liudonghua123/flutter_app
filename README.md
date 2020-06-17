@@ -5,6 +5,7 @@
 ![MacOS-CI](https://github.com/liudonghua123/flutter_app/workflows/MacOS-CI/badge.svg)
 ![Linux-CI](https://github.com/liudonghua123/flutter_app/workflows/Linux-CI/badge.svg)
 ![Windows-CI](https://github.com/liudonghua123/flutter_app/workflows/Windows-CI/badge.svg)
+![TestFlight](https://github.com/liudonghua123/flutter_app/workflows/TestFlight/badge.svg)
 
 This is a flutter quick starter template project which support mobile (android, ios), web and desktop (MacOS, Linux, Windows) platform.
 

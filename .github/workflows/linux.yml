@@ -26,18 +26,11 @@ jobs:
         with:
           channel: 'dev'
 
-      - name: Change flutter channel to master, enable linux support
+      - name: Enable linux support
         run: |
-          flutter channel master
-          flutter upgrade
           flutter config --enable-linux-desktop
-          flutter pub get
 
-      - name: Debug
-        run: |
-          flutter doctor
-
-      - name: Debug
+      - name: Install linux prerequisites
         run: |
           sudo apt-get update -y
           sudo apt-get install -y ninja-build libgtk-3-dev
@@ -45,15 +38,19 @@ jobs:
 
       - name: Build linux
         run: |
+          flutter pub get
           flutter build linux
+
       - name: Debug
         run: |
           sudo npm install tree-node-cli -g
           treee build
+
       - name: Prepare release files
         run: |
           cp -r build/linux/release flutter_app-linux-${{ steps.branch_name.outputs.SOURCE_NAME }}
           zip flutter_app-linux-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip -r flutter_app-linux-${{ steps.branch_name.outputs.SOURCE_NAME }}
+
       - uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

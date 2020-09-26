@@ -28,15 +28,13 @@ jobs:
         with:
           channel: 'dev'
 
-      - name: Change flutter channel to master, enable windows support
+      - name: Enable windows support
         run: |
-          flutter channel master
-          flutter upgrade
           flutter config --enable-windows-desktop
-          flutter pub get
 
       - name: Build windows
         run: |
+          flutter pub get
           flutter build windows
 
       - name: Prepare release files

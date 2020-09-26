@@ -27,15 +27,13 @@ jobs:
         with:
           channel: 'dev'
 
-      - name: Change flutter channel to master, enable macos support
+      - name: Enable macos support
         run: |
-          flutter channel master
-          flutter upgrade
           flutter config --enable-macos-desktop
-          flutter pub get
 
       - name: Build macos
         run: |
+          flutter pub get
           flutter build macos
 
       - name: Debug

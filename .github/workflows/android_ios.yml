@@ -27,14 +27,9 @@ jobs:
         with:
           channel: 'dev'
 
-      - name: Change flutter channel to master, enable macos support
-        run: |
-          flutter channel master
-          flutter upgrade
-          flutter pub get
-
       - name: Build apk, ios(simulator)
         run: |
+          flutter pub get
           flutter build apk
           flutter build ios --debug --no-codesign --simulator
 

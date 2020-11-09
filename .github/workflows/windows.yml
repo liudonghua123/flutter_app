@@ -56,7 +56,8 @@ jobs:
 
       - name: Prepare release files
         run: |
-          7z a -tzip ${APP_NAME}-windows-x64-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip -r .\build\windows\runner\Release\*
+          7z a -tzip ${APP_NAME}-windows-x64-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip -r ./build/windows/runner/Release/*
+        shell: bash
 
       - uses: xresloader/upload-to-github-release@v1
         env:

@@ -9,6 +9,8 @@ on:
 
 jobs:
   build:
+    env:
+      APP_NAME: flutter_app
     runs-on: macos-latest
     if: contains(github.ref, 'tags')
     steps:
@@ -40,14 +42,14 @@ jobs:
 
       - name: Prepare release files
         run: |
-          cp -r build/ios/Debug-iphonesimulator/Runner.app flutter_app-ios-${{ steps.branch_name.outputs.SOURCE_NAME }}.app
-          zip flutter_app-ios-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip -r flutter_app-ios-${{ steps.branch_name.outputs.SOURCE_NAME }}.app
-          cp build/app/outputs/apk/release/app-release.apk flutter_app-android-${{ steps.branch_name.outputs.SOURCE_NAME }}.apk
+          cp -r build/ios/Debug-iphonesimulator/Runner.app ${APP_NAME}-ios-${{ steps.branch_name.outputs.SOURCE_NAME }}.app
+          zip ${APP_NAME}-ios-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip -r ${APP_NAME}-ios-${{ steps.branch_name.outputs.SOURCE_NAME }}.app
+          cp build/app/outputs/apk/release/app-release.apk ${APP_NAME}-android-${{ steps.branch_name.outputs.SOURCE_NAME }}.apk
 
       - uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: flutter_app-ios-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip;flutter_app-android-${{ steps.branch_name.outputs.SOURCE_NAME }}.apk
+          file: ${APP_NAME}-ios-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip;${APP_NAME}-android-${{ steps.branch_name.outputs.SOURCE_NAME }}.apk
           tags: true
           draft: false

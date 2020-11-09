@@ -9,6 +9,8 @@ on:
 
 jobs:
   build:
+    env:
+      APP_NAME: flutter_app
     runs-on: ubuntu-latest
     if: contains(github.ref, 'tags')
     steps:
@@ -48,13 +50,13 @@ jobs:
 
       - name: Prepare release files
         run: |
-          cp -r build/linux/release/bundle flutter_app-linux-${{ steps.branch_name.outputs.SOURCE_NAME }}
-          zip flutter_app-linux-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip -r flutter_app-linux-${{ steps.branch_name.outputs.SOURCE_NAME }}
+          cp -r build/linux/release/bundle ${APP_NAME}-linux-${{ steps.branch_name.outputs.SOURCE_NAME }}
+          zip ${APP_NAME}-linux-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip -r ${APP_NAME}-linux-${{ steps.branch_name.outputs.SOURCE_NAME }}
 
       - uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: flutter_app-linux-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip
+          file: ${APP_NAME}-linux-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip
           tags: true
           draft: false

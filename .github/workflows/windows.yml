@@ -9,6 +9,8 @@ on:
 
 jobs:
   build:
+    env:
+      APP_NAME: flutter_app
     runs-on: windows-latest
     if: contains(github.ref, 'tags')
     steps:
@@ -44,12 +46,12 @@ jobs:
 
       - name: Prepare release files
         run: |
-          7z a -tzip flutter_app-windows-x64-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip -r .\build\windows\runner\Release\*
+          7z a -tzip ${APP_NAME}-windows-x64-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip -r .\build\windows\runner\Release\*
 
       - uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: flutter_app-windows-x64-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip
+          file: ${APP_NAME}-windows-x64-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip
           tags: true
           draft: false

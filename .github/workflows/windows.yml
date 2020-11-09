@@ -44,6 +44,16 @@ jobs:
           cp -r ./resources/windows_c++_redistributables/* ./build/windows/runner/Release/
         shell: bash
 
+      # http://markwal.github.io/programming/2015/07/28/squirrel-for-windows.html
+      - name: Build setup installer with squirrel.windows
+        run: |
+          mkdir -p ./build/squirrel.windows.build/lib/net45/
+          cp -r ./build/windows/runner/Release/* ./build/squirrel.windows.build/lib/net45/
+          cp -r ./resources/${APP_NAME}.nuspec ./build/squirrel.windows.build/${APP_NAME}.nuspec
+          ./resources/nuget.exe pack ./build/squirrel.windows.build/${APP_NAME}.nuspec -BasePath ./build/squirrel.windows.build -OutputDirectory ./build/squirrel.windows.build
+          ./resources/packages/squirrel.windows.2.0.1/tools/Squirrel.exe --releasify ./build/squirrel.windows.build/${APP_NAME}.1.0.0.nupkg --releaseDir=./build/squirrel.windows.build-release --loadingGif=./resources/launch_1.gif --setupIcon=./resources/app_icon.ico
+        shell: bash
+
       - name: Prepare release files
         run: |
           7z a -tzip ${APP_NAME}-windows-x64-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip -r .\build\windows\runner\Release\*
@@ -52,6 +62,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: ${APP_NAME}-windows-x64-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip
+          file: ${APP_NAME}-windows-x64-${{ steps.branch_name.outputs.SOURCE_NAME }}.zip; build/squirrel.windows.build-release/*
           tags: true
           draft: false

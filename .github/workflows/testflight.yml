@@ -21,6 +21,7 @@ jobs:
       MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
       TEAM_ID: ${{ secrets.TEAM_ID }}
     runs-on: macos-latest
+    continue-on-error: true
     if: contains(github.ref, 'tags')
     steps:
       - uses: actions/checkout@v2

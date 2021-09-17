@@ -3,19 +3,21 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
-  "manifest.json": "7b48859b17d6f9351202e2757b340fed",
-"icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
-"icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
-"assets/NOTICES": "b87e7ceb9de555cb3775cbfd1db2618c",
-"assets/fonts/MaterialIcons-Regular.otf": "1288c9e28052e028aba623321f7826ac",
-"assets/AssetManifest.json": "2efbb41d7877d10aac9d091f58ccd7b9",
+  "favicon.png": "5dcef449791fa27946b3d35ad8803796",
+"index.html": "2b55874f650007210927960e8e627a62",
+"/": "2b55874f650007210927960e8e627a62",
+"assets/NOTICES": "6aeca6bf2ffc2e73993faa4b70f5b8b6",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
-"index.html": "212e12d4de3c129dc7e23a8afa9b4337",
-"/": "212e12d4de3c129dc7e23a8afa9b4337",
-"main.dart.js": "75788eea53fdf621556ade0acf7b2fd6",
+"assets/fonts/MaterialIcons-Regular.otf": "4e6447691c9509f7acdbf8a931a85ca1",
+"assets/AssetManifest.json": "2efbb41d7877d10aac9d091f58ccd7b9",
 "version.json": "21b60d415374031526ebe304809a0f7a",
-"favicon.png": "5dcef449791fa27946b3d35ad8803796"
+"manifest.json": "8e66e1314dbabf0aa13062137d7bf013",
+"icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
+"icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
+"icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
+"icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
+"main.dart.js": "b53d187ab37b7389d8dbc3c5772b1f0d"
 };
 
 // The application shell files that are downloaded before a service worker can
@@ -33,7 +35,7 @@ self.addEventListener("install", (event) => {
   return event.waitUntil(
     caches.open(TEMP).then((cache) => {
       return cache.addAll(
-        CORE.map((value) => new Request(value + '?revision=' + RESOURCES[value], {'cache': 'reload'})));
+        CORE.map((value) => new Request(value, {'cache': 'reload'})));
     })
   );
 });

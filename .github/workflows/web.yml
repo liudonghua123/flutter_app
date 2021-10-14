@@ -3,6 +3,7 @@ name: WEB-CI
 on:
   push:
     branches: 
+      - main
       - master
 
 jobs:
@@ -27,7 +28,8 @@ jobs:
       - name: Build web
         run: |
           flutter pub get
-          flutter build web
+          flutter build web --base-href /${APP_NAME}/
+        shell: bash
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

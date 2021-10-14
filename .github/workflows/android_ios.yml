@@ -3,6 +3,7 @@ name: Android_IOS-CI
 on:
   push:
     branches:
+      - main
       - master
     tags:
       - '*'
